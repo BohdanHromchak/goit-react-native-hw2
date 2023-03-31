@@ -94,9 +94,13 @@ const styles = StyleSheet.create({
     // flexDirection: "column",
     // alignItems: "center",
     // justifyContent: "center",
+    backgroundColor: '#FFFFFF',
+    height: 450,
     width: '100%',
     paddingLeft: 16,
     paddingRight: 16,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   inputWrap: {
     flexDirection:'column', gap: 16,
@@ -114,6 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     borderColor: "#E8E8E8",
     borderRadius: 8,
+  
   },
   button: {
     color: "#FFFFFF",
