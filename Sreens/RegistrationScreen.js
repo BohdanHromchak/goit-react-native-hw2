@@ -41,33 +41,37 @@ export default function RegistrationScreen() {
               style={styles.image}
             />
             <View style={styles.formWrap}>
+              <View style={styles.avatar}></View>
               <Text style={styles.title}>Регистрация</Text>
 
               <View style={styles.inputWrap}>
-              <TextInput
-                value={login}
-                onChangeText={loginHandler}
-                placeholder="Логин"
-                style={styles.input}
-              />
-              <TextInput
-                value={email}
-                onChangeText={emailHandler}
-                placeholder="Адрес электронной почты"
-                style={styles.input}
-              />
-              <TextInput
-                value={password}
-                onChangeText={passwordHandler}
-                placeholder="Пароль"
-                secureTextEntry={true}
-                style={styles.input}
-              />
+                <TextInput
+                  value={login}
+                  onChangeText={loginHandler}
+                  placeholder="Логин"
+                  placeholderTextColor={"#BDBDBD"}
+                  style={styles.input}
+                />
+                <TextInput
+                  value={email}
+                  onChangeText={emailHandler}
+                  placeholder="Адрес электронной почты"
+                  placeholderTextColor={"#BDBDBD"}
+                  style={styles.input}
+                />
+                <TextInput
+                  value={password}
+                  onChangeText={passwordHandler}
+                  placeholder="Пароль"
+                  placeholderTextColor={"#BDBDBD"}
+                  secureTextEntry={true}
+                  style={styles.input}
+                />
               </View>
               <Pressable onPress={onLogin} style={styles.button}>
                 <Text style={styles.buttonText}>Зарегистрироваться</Text>
               </Pressable>
-              <Text>Уже есть аккаунт? Войти</Text>
+              <Text style={styles.logInText}>Уже есть аккаунт? Войти</Text>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -94,17 +98,37 @@ const styles = StyleSheet.create({
     // flexDirection: "column",
     // alignItems: "center",
     // justifyContent: "center",
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     height: 450,
-    width: '100%',
+    width: "100%",
     paddingLeft: 16,
     paddingRight: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    paddingTop: 75,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    position: "absolute",
+    top: "-16%",
+    left: "38%",
+    borderRadius: 16,
+  },
+  title: {
+    textAlign: "center",
+    color: "#212121",
+    fontSize: 30,
+    fontWeight: 500,
+    lineHeight: 35,
+    letterSpacing: 1.6,
+    marginBottom: 20,
   },
   inputWrap: {
-    flexDirection:'column', gap: 16,
-    marginBottom: 43,
+    flexDirection: "column",
+    gap: 16,
+    marginBottom: 20,
   },
   image: {
     position: "absolute",
@@ -112,19 +136,31 @@ const styles = StyleSheet.create({
     top: 0,
   },
   input: {
-    height: 40,
+    height: 45,
     padding: 10,
     borderWidth: 1,
     backgroundColor: "#F6F6F6",
     borderColor: "#E8E8E8",
     borderRadius: 8,
-  
   },
   button: {
-    color: "#FFFFFF",
+    height: 51,
     backgroundColor: "#FF6C00",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+    marginBottom: 10,
   },
   buttonText: {
     color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: 400,
+    lineHeight: 16,
+  },
+  logInText: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: 400,
+    lineHeight: 19,
   },
 });
