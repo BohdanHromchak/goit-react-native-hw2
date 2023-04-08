@@ -12,6 +12,7 @@ import {
   Image,
   Pressable,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 const initialState = {
   login: "",
@@ -25,6 +26,7 @@ export default function RegistrationScreen() {
   const [isLoginFocus, setIsLoginFocus] = useState(false);
   const [isEmailFocus, setIsEmailFocus] = useState(false);
   const [isPasswordFocus, setIsPasswordFocus] = useState(false);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(false);
 
   const handleSubmit = () => {
     keyboardHide();
@@ -47,7 +49,11 @@ export default function RegistrationScreen() {
               style={styles.image}
             />
             <View style={styles.formWrap}>
-              <View style={styles.avatar}></View>
+              <View style={styles.avatar}>
+                <Pressable style={styles.avatarButton}>
+                  <AntDesign name="pluscircleo" size={24} color="#FF6C00" />
+                </Pressable>
+              </View>
               <Text style={styles.title}>Регистрация</Text>
 
               <View style={styles.inputWrap}>
@@ -65,10 +71,9 @@ export default function RegistrationScreen() {
                   }}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsLoginFocus(true)
+                    setIsLoginFocus(true);
                   }}
                   onBlur={() => setIsLoginFocus(false)}
-                  
                 />
                 <TextInput
                   value={state.email}
@@ -84,32 +89,44 @@ export default function RegistrationScreen() {
                   }}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsEmailFocus(true)
+                    setIsEmailFocus(true);
                   }}
                   onBlur={() => setIsEmailFocus(false)}
                 />
-                <TextInput
-                  value={state.password}
-                  onChangeText={(value) =>
-                    setState((prevState) => ({
-                      ...prevState,
-                      password: value,
-                    }))
-                  }
-                  placeholder="Пароль"
-                  placeholderTextColor={"#BDBDBD"}
-                  secureTextEntry={true}
-                  style={{
-                    ...styles.input,
-                    borderColor: isPasswordFocus ? "#ff6c00" : "#e8e8e8",
-                    backgroundColor: isPasswordFocus ? "#fff" : "#f6f6f6",
-                  }}
-                  onFocus={() => {
-                    setIsShowKeyboard(true);
-                    setIsPasswordFocus(true)
-                  }}
-                  onBlur={() => setIsPasswordFocus(false)}
-                />
+                <View style={{ position: "relative" }}>
+                  <TextInput
+                    value={state.password}
+                    onChangeText={(value) =>
+                      setState((prevState) => ({
+                        ...prevState,
+                        password: value,
+                      }))
+                    }
+                    placeholder="Пароль"
+                    placeholderTextColor={"#BDBDBD"}
+                    secureTextEntry={isPasswordHidden}
+                    style={{
+                      ...styles.input,
+                      borderColor: isPasswordFocus ? "#ff6c00" : "#e8e8e8",
+                      backgroundColor: isPasswordFocus ? "#fff" : "#f6f6f6",
+                    }}
+                    onFocus={() => {
+                      setIsShowKeyboard(true);
+                      setIsPasswordFocus(true);
+                    }}
+                    onBlur={() => setIsPasswordFocus(false)}
+                  />
+                  <Pressable
+                    onPress={() =>
+                      setIsPasswordHidden((prevState) => !prevState)
+                    }
+                    style={styles.toggleButton}
+                  >
+                    <Text style={styles.toggleText}>
+                      {isPasswordHidden ? "Показать" : "Скрыть"}
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
               {!isShowKeyboard && (
                 <>
@@ -136,23 +153,27 @@ const styles = StyleSheet.create({
   },
   formWrap: {
     backgroundColor: "#FFFFFF",
-    // height: 450,
     width: "100%",
     paddingHorizontal: 20,
-    // paddingLeft: 16,
-    // paddingRight: 16,
+    // paddingLeft: 20,
+    // paddingRight: 20,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingTop: 75,
+    paddingTop: 70,
   },
   avatar: {
-    width: 120,
-    height: 120,
+    width: 110,
+    height: 110,
     backgroundColor: "#F6F6F6",
     position: "absolute",
-    top: "-16%",
-    left: "38%",
+    top: -50,
+    left: 150,
     borderRadius: 16,
+  },
+  avatarButton: {
+    position: 'absolute',
+    right: -12,
+    bottom: 10,
   },
   title: {
     fontFamily: "Roboto-Medium",
@@ -176,7 +197,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 45,
-    padding: 10,
+    padding: 15,
     borderWidth: 1,
     // backgroundColor: "#F6F6F6",
     // borderColor: "#E8E8E8",
@@ -200,10 +221,21 @@ const styles = StyleSheet.create({
   },
   logInText: {
     textAlign: "center",
+    color: '#1B4371',
     fontSize: 16,
     fontWeight: 400,
     lineHeight: 19,
     fontFamily: "Roboto-Regular",
     marginBottom: 50,
+  },
+  toggleButton: {
+    position: "absolute",
+    top: 12,
+    right: 20,
+  },
+  toggleText: {
+    color: "#1B4371",
+    fontFamily: "Roboto-Regular",
+    lineHeight: 19,
   },
 });
