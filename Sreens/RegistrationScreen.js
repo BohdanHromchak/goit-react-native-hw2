@@ -28,7 +28,7 @@ export default function RegistrationScreen() {
     setEmail("");
     setPassword("");
   };
-
+//
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
