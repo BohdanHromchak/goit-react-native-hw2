@@ -13,24 +13,30 @@ import {
   Pressable,
 } from "react-native";
 
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
+
 export default function RegistrationScreen() {
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [state, setState] = useState(initialState);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [isLoginFocus, setIsLoginFocus] = useState(false);
+  const [isEmailFocus, setIsEmailFocus] = useState(false);
+  const [isPasswordFocus, setIsPasswordFocus] = useState(false);
 
-  const loginHandler = (login) => setLogin(login);
-  const emailHandler = (email) => setEmail(email);
-  const passwordHandler = (password) => setPassword(password);
-
-  const onLogin = () => {
-    console.log(login, email, password);
-    setLogin("");
-    setEmail("");
-    setPassword("");
+  const handleSubmit = () => {
+    keyboardHide();
+    console.log(state);
+    setState(initialState);
   };
-//
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
       <View>
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -46,32 +52,73 @@ export default function RegistrationScreen() {
 
               <View style={styles.inputWrap}>
                 <TextInput
-                  value={login}
-                  onChangeText={loginHandler}
+                  value={state.login}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, login: value }))
+                  }
                   placeholder="Логин"
                   placeholderTextColor={"#BDBDBD"}
-                  style={styles.input}
+                  style={{
+                    ...styles.input,
+                    borderColor: isLoginFocus ? "#ff6c00" : "#e8e8e8",
+                    backgroundColor: isLoginFocus ? "#fff" : "#f6f6f6",
+                  }}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                    setIsLoginFocus(true)
+                  }}
+                  onBlur={() => setIsLoginFocus(false)}
+                  
                 />
                 <TextInput
-                  value={email}
-                  onChangeText={emailHandler}
+                  value={state.email}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, email: value }))
+                  }
                   placeholder="Адрес электронной почты"
                   placeholderTextColor={"#BDBDBD"}
-                  style={styles.input}
+                  style={{
+                    ...styles.input,
+                    borderColor: isEmailFocus ? "#ff6c00" : "#e8e8e8",
+                    backgroundColor: isEmailFocus ? "#fff" : "#f6f6f6",
+                  }}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                    setIsEmailFocus(true)
+                  }}
+                  onBlur={() => setIsEmailFocus(false)}
                 />
                 <TextInput
-                  value={password}
-                  onChangeText={passwordHandler}
+                  value={state.password}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({
+                      ...prevState,
+                      password: value,
+                    }))
+                  }
                   placeholder="Пароль"
                   placeholderTextColor={"#BDBDBD"}
                   secureTextEntry={true}
-                  style={styles.input}
+                  style={{
+                    ...styles.input,
+                    borderColor: isPasswordFocus ? "#ff6c00" : "#e8e8e8",
+                    backgroundColor: isPasswordFocus ? "#fff" : "#f6f6f6",
+                  }}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                    setIsPasswordFocus(true)
+                  }}
+                  onBlur={() => setIsPasswordFocus(false)}
                 />
               </View>
-              <Pressable onPress={onLogin} style={styles.button}>
-                <Text style={styles.buttonText}>Зарегистрироваться</Text>
-              </Pressable>
-              <Text style={styles.logInText}>Уже есть аккаунт? Войти</Text>
+              {!isShowKeyboard && (
+                <>
+                  <Pressable onPress={handleSubmit} style={styles.button}>
+                    <Text style={styles.buttonText}>Зарегистрироваться</Text>
+                  </Pressable>
+                  <Text style={styles.logInText}>Уже есть аккаунт? Войти</Text>
+                </>
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -88,21 +135,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   formWrap: {
-    // backgroundColor: "#FFFFFF",
-    // borderRadius: '25 25 0 0',
-    // width: "100%",
-    // alignItems: 'center',
-    // justifyContent: 'flex-end'
-    // top: 200,
-    // height: 370,
-    // flexDirection: "column",
-    // alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: "#FFFFFF",
-    height: 450,
+    // height: 450,
     width: "100%",
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingHorizontal: 20,
+    // paddingLeft: 16,
+    // paddingRight: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingTop: 75,
@@ -117,6 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   title: {
+    fontFamily: "Roboto-Medium",
     textAlign: "center",
     color: "#212121",
     fontSize: 30,
@@ -139,9 +178,10 @@ const styles = StyleSheet.create({
     height: 45,
     padding: 10,
     borderWidth: 1,
-    backgroundColor: "#F6F6F6",
-    borderColor: "#E8E8E8",
+    // backgroundColor: "#F6F6F6",
+    // borderColor: "#E8E8E8",
     borderRadius: 8,
+    fontFamily: "Roboto-Regular",
   },
   button: {
     height: 51,
@@ -149,18 +189,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   buttonText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: 400,
     lineHeight: 16,
+    fontFamily: "Roboto-Regular",
   },
   logInText: {
     textAlign: "center",
     fontSize: 16,
     fontWeight: 400,
     lineHeight: 19,
+    fontFamily: "Roboto-Regular",
+    marginBottom: 50,
   },
 });
