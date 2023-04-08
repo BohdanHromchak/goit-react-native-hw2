@@ -12,7 +12,6 @@ import {
   Image,
   Pressable,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 const initialState = {
   login: "",
